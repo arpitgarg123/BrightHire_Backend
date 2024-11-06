@@ -40,8 +40,7 @@
         }
         const submitHandler =async (e)=>{
             e.preventDefault()
-            console.log(user);
-            
+                        
             const formData =  new FormData();
             formData.append('fullname', input.fullname);
             formData.append('email', input.email);
