@@ -25,14 +25,14 @@ try{
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  await userModel.create({
+   await userModel.create({
     fullname,
     email,
     phonenumber,
     password: hashedPassword,
     role,
-    profile :  {
-        image : cloudResponse.secure_url
+    profile: {
+        image: cloudResponse ? cloudResponse.secure_url : null,
     }
   });
     res.status(201).json({message: 'Account registered successfully', success: true});
