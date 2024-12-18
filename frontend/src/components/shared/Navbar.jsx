@@ -141,57 +141,96 @@ export default Navbar;
 
 const MobileNav = ( {user, logoutHandler }) => {
   return (
+    <div className={"flex items-center gap-5"}>
+         {
+        !user ? (
+          <div className='flex gap-2 items-center'>
+            <Link to="/Login"><Button variant="outline">Login</Button></Link>
+          </div>
+        ) : (
+      <Popover>
+        <PopoverTrigger>
+        <Avatar className="cursor-pointer">
+    <AvatarImage src={user?.profile?.image}  alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+        </PopoverTrigger>
+        <PopoverContent className="w-80">
+          <div className='flex gap-5 items-center'>
+          <Avatar className="cursor-pointer">
+    <AvatarImage src={user?.profile?.image} alt="@shadcn" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <div>
+    <h2 className='font-semibold'>{user?.fullname}</h2>
+    <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
+  </div>
+          </div>
+          <div className='flex flex-col mt-5'>
+            {
+              user && user.role === "student" && (
+                <div className='flex items-center'>
+                <User2 className='w-5' />
+                <Button variant="link" ><Link to="/profile">view profile</Link> </Button>
+              </div>
+              )
+            }
+            <div className='flex items-center ml-1'>
+              <LogOut className='w-4 text-red-500'/>
+              <Button onClick={logoutHandler} variant="link" className="text-red-500">Logout</Button>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+        )
+      }
     <Popover>
     <PopoverTrigger>
       <MenuIcon/>
     </PopoverTrigger>
     <PopoverContent>
-    {
-          !user ? (
-            <div className='flex gap-2 items-center flex-col'>
-              <Link to="/Login"><Button variant="outline">Login</Button></Link>
-          <Link to="/signup"><Button className="bg-[#6A38C2] hover:bg-[#572e9d]" >Sign up</Button></Link>
-          
-            </div>
-          ) : (
-        <Popover>
-          <PopoverTrigger>
-          <Avatar className="cursor-pointer">
-      <AvatarImage src={user?.profile?.image}  alt="@shadcn" />
-      <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
-          </PopoverTrigger>
-          <PopoverContent className="w-80">
-            <div className='flex gap-5 items-center'>
-            <Avatar className="cursor-pointer">
-      <AvatarImage src={user?.profile?.image} alt="@shadcn" />
-      <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
-    <div>
-      <h2 className='font-semibold'>{user?.fullname}</h2>
-      <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
-    </div>
-            </div>
-            <div className='flex flex-col mt-5'>
-              {
-                user && user.role === "student" && (
-                  <div className='flex items-center'>
-                  <User2 className='w-5' />
-                  <Button variant="link" ><Link to="/profile">view profile</Link> </Button>
-                </div>
-                )
-              }
-              <div className='flex items-center ml-1'>
-                <LogOut className='w-4 text-red-500'/>
-                <Button onClick={logoutHandler} variant="link" className="text-red-500">Logout</Button>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-          )
-        }
+    <ul className='flex font-medium gap-5 flex-col'>
+          {
+            user && user.role === "recruiter" ? (
+              <>
+              <li>      <NavLink
+              style={(e)=>e.isActive ? {textDecoration : "underline"} : {}}
+              className={(e)=>(e.isActive? "text-red-900" : "")}
+              to="/admin/companies">Companies</NavLink></li>
+                <li>      <NavLink
+              style={(e)=>e.isActive ? {textDecoration : "underline"} : {}}
+              className={(e)=>(
+                e.isActive? "text-red-900" : ""
+              )}
+              to="/admin/jobs">Jobs</NavLink></li>
+                   </>
+            ) : (
+              <>
+              <li>      <NavLink
+              style={(e)=>e.isActive ? {textDecoration : "underline"} : {}}
+              className={(e)=>(e.isActive? "text-red-900" : "")}
+              to="/">Home</NavLink></li>
+                <li>      <NavLink
+              style={(e)=>e.isActive ? {textDecoration : "underline"} : {}}
+              className={(e)=>(
+                e.isActive? "text-red-900" : ""
+              )}
+              to="/jobs">Jobs</NavLink></li>
+                <li>      <NavLink
+              style={(e)=>e.isActive ? {textDecoration : "underline"} : {}}
+              className={(e)=>(
+                e.isActive? "text-red-900" : ""
+              )}
+              to="/browse">Browse</NavLink></li>
+            </>
+            )
+          }
+     
+        </ul>
     </PopoverContent>
   </Popover>
+   
+     </div>
   
   )
 }
